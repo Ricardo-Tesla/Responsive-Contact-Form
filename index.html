@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Contact Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <style>
+        
+        .container {
+            margin-top: 50px;
+        }
+
+        input {
+            cursor: pointer;
+            border: 1px solid green;
+        }
+
+
+        input:hover {
+            border-color: green;
+        }
+
+        .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background-color: white;
+        }
+        textarea, label{
+            cursor: pointer;
+        }
+
+        .radio {
+            margin-right: 10px;
+            accent-color: green;
+        }
+
+        .form-check-input:checked {
+            background-color: green !important;
+            border-color: green !important;
+        }
+
+        .form-alert {
+            display: none;
+            color: red;
+            margin-top: .5rem;
+        }
+
+        .success-message {
+            background-color: rgb(26, 65, 55);
+            color: white;
+            width: 450px;
+            padding: 10px;
+            opacity: 0;
+            pointer-events: none;
+            position: fixed;
+            top: 1%;
+            left: 50%;
+            transform: translate(-50%);
+            border-radius: .35rem;
+        }
+
+        .success-message.active {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(204, 225, 218);">
+    <form id="contactForm">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 p-4 m-5 bg-white" style="border-radius: 10px;">
+                    <h2>Contact Us</h2>
+                    <div class="row mb-1">
+                        <div class="col">
+                            <label for="fname" class="form-label">First Name <span
+                                    style="color: rgb(17, 160, 17);">*</span></label>
+                            <input type="text" class="form-control" id="fname">
+                            <div class="form-alert">This field is required</div>
+                        </div>
+                        <div class="col">
+                            <label for="lname" class="form-label">Last Name <span
+                                    style="color: rgb(17, 160, 17);">*</span></label>
+                            <input type="text" class="form-control" id="lname">
+                            <div class="form-alert">This field is required</div>
+                        </div>
+                    </div>
+                    <label for="email" class="form-label">Email Address <span
+                            style="color: rgb(17, 160, 17);">*</span></label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <div class="form-alert">Please enter a valid email address</div>
+
+                    <div class="row mt-1">
+                        <label name="queryType" class="form-label">Query Type <span
+                                style="color: rgb(17, 160, 17);">*</span></label>
+                        <div class="col">
+                            <div class="input-group-text mb-3" id="generalEnquiryContainer">
+                                <input class="radio" type="radio" name="queryType" id="generalEnquiry"
+                                    value="generalEnquiry">
+                                <label for="generalEnquiry" class="form-control border-0">General Enquiry</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group-text mb-3" id="supportRequestContainer">
+                                <input class="radio" type="radio" name="queryType" id="supportRequest"
+                                    value="supportRequest">
+                                <label for="supportRequest" class="form-control border-0">Support Request</label>
+                            </div>
+                        </div>
+                        <div class="form-alert radio">Please select a query type</div>
+                    </div>
+                    <label for="message" class="mb-2">Message <span style="color: rgb(17, 160, 17);">*</span></label>
+                    <textarea class="form-control mb-2" rows="5" id="message"></textarea>
+                    <div class="form-alert">This field is required</div>
+
+                    <div class="form-check mb-3">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" id="consent"> I consent to being contacted
+                            by the team <span style="color: rgb(17, 160, 17);">*</span>
+                            <div class="form-alert">To submit this form, please consent to being contacted</div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="container btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-message" class="success-message">
+            <div class="message-header">
+                <img style="width: 15px; margin-right: 10px;" src="check.png">Message Sent!
+            </div>
+            <p style="color: rgb(216, 223, 216);">Thanks for completing the form. We'll be in touch soon!</p>
+        </div>
+    </form>
+    <script>
+        const form = document.getElementById('contactForm');
+        const successMessage = document.getElementById('success-message');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const firstName = document.getElementById('fname').value.trim();
+            const lastName = document.getElementById('lname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const queryType = document.querySelector('input[name="queryType"]:checked');
+            const message = document.getElementById('message').value.trim();
+            const consent = document.getElementById('consent').checked;
+
+            let isValid = true;
+
+            if (firstName === '') {
+                isValid = false;
+                document.querySelector('#fname + .form-alert').style.display = 'block';
+                document.querySelector('#fname').style.border = '1px solid red';
+            } else {
+                document.querySelector('#fname + .form-alert').style.display = 'none';
+                document.querySelector('#fname').style.border = '1px solid green';
+            }
+
+            if (lastName === '') {
+                isValid = false;
+                document.querySelector('#lname + .form-alert').style.display = 'block';
+                document.querySelector('#lname').style.border = '1px solid red';
+            } else {
+                document.querySelector('#lname + .form-alert').style.display = 'none';
+                document.querySelector('#lname').style.border = '1px solid green';
+            }
+
+            if (!isValidEmail(email)) {
+                isValid = false;
+                document.querySelector('#email + .form-alert').style.display = 'block';
+                document.querySelector('#email').style.border = '1px solid red';
+            } else {
+                document.querySelector('#email + .form-alert').style.display = 'none';
+                document.querySelector('#email').style.border = '1px solid green';
+            }
+
+            if (!queryType) {
+                isValid = false;
+                document.querySelector('.form-alert.radio').style.display = 'block';
+            } else {
+                document.querySelector('.form-alert.radio').style.display = 'none';
+            }
+
+            if (message === '') {
+                isValid = false;
+                document.querySelector('#message + .form-alert').style.display = 'block';
+                document.querySelector('#message').style.border = '1px solid red';
+            } else {
+                document.querySelector('#message + .form-alert').style.display = 'none';
+                document.querySelector('#message').style.border = '1px solid green';
+            }
+
+            if (!consent) {
+                isValid = false;
+                document.querySelector('.form-check .form-alert').style.display = 'block';
+            } else {
+                document.querySelector('.form-check .form-alert').style.display = 'none';
+            }
+
+            if (isValid) {
+                successMessage.classList.add('active');
+                setTimeout(() => {
+                    successMessage.classList.remove('active');
+                }, 3000);
+                form.reset();
+            }
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+</body>
+
+</html>
